@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SunStr1k1 — учусь веб-разработке</title>
+  <style>
+    :root {
+      --bg: #f7f6f3;
+      --surface: #ffffff;
+      --text: #14130f;
+      --muted: #5c5850;
+      --line: #e2ded6;
+      --accent: #c2410c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 64px 24px;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    main {
+      width: 100%;
+      max-width: 640px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 48px 44px 40px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 40px;
+      line-height: 1.15;
+      letter-spacing: -0.8px;
+    }
+
+    .subtitle {
+      margin: 0 0 32px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    p {
+      margin: 0 0 18px;
+      color: var(--muted);
+    }
+
+    p strong { color: var(--text); }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 32px 0 24px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .tags li {
+      font-size: 14px;
+      padding: 5px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--text);
+      background: var(--bg);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Привет, мир</p>
+    <h1>SunStr1k1</h1>
+    <p class="subtitle">Учусь веб-разработке — с нуля и по-настоящему.</p>
+
+    <p>
+      Меня зовут <strong>SunStr1k1</strong>, и сейчас я разбираюсь в том, как устроены
+      сайты изнутри: от структуры HTML и оформления на CSS до первых скриптов
+      на JavaScript. Я верю, что лучший способ научиться — делать, поэтому
+      каждую новую тему сразу закрепляю практикой на реальных страницах.
+    </p>
+
+    <p>
+      Мне интересно писать код, который понятно читается и аккуратно выглядит
+      на разных экранах. Эта страница — один из первых шагов: небольшой
+      проект, где я тренирую вёрстку, работу с типографикой и Git.
+      Дальше — больше: адаптивность, интерактивность и собственные проекты.
+    </p>
+
+    <hr>
+
+    <ul class="tags">
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+      <li>Git</li>
+    </ul>
+  </main>
+</body>
+</html>
