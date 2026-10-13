@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      // Figsor — Figma MCP bridge: https://github.com/AsifKabirAntu/figsor
+      "figsor": {
+        "type": "local",
+        "command": ["npx", "-y", "figsor"],
+        "timeout": {
+          "startup": 180000
+        }
+      }
+    }
+  }
+}

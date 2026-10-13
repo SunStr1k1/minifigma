@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en" data-variant="pine">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian — Personal loans with a rate you can see first</title>
+
+<!--
+  ══════════════════════════════════════════════════════════════════
+  DESIGN SYSTEM — "Meridian" lending landing page (Editorial Fintech)
+  ══════════════════════════════════════════════════════════════════
+  BRAND: "Meridian" is a placeholder brand created for this mockup.
+  ALL figures, APRs, and copy are placeholder design copy — replace
+  with real, legally reviewed product terms before any use.
+
+  TYPE
+    Display : Instrument Serif 400 / italic   (headlines, numbers-as-editorial)
+    Body/UI : IBM Plex Sans 400/500/600       (paragraphs, buttons, table)
+    Figures : IBM Plex Mono 400/500           (labels, section numbers, money)
+    Scale   : 84 / 56 / 36 / 24 / 19 / 17 / 15 / 13  (clamped for mobile)
+
+  COLOR (default "Ink & Pine"; switchable via Variants panel)
+    paper      oklch(.966 .011 85)   warm off-white — page background
+    paper-2    oklch(.937 .014 85)   tinted panel
+    ink        oklch(.192 .012 95)   text + hairlines
+    accent     oklch(.360 .095 155)  pine green — buttons, inverted bands
+    2 backgrounds only: paper (body) + accent/ink (statement bands)
+
+  LAYOUT RHYTHM
+    content max 1200px, gutter 24px, section padding clamp(72px,10vw,128px)
+    spacing grid 8/16/24/32/48/64/96
+    section header pattern: mono number "01 —" + eyebrow label + serif h2
+    full-bleed 1px hairlines separate every section
+
+  VARIANTS (bottom-left panel): Pine (default) / Oxblood / Ledger
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ── Tokens ─────────────────────────────────────────────── */
+  :root {
+    --paper:   oklch(.966 .011 85);
+    --paper-2: oklch(.937 .014 85);
+    --ink:     oklch(.192 .012 95);
+    --accent:  oklch(.360 .095 155);
+    --rule:    color-mix(in oklab, var(--ink) 22%, transparent);
+    --muted:   color-mix(in oklab, var(--ink) 62%, transparent);
+    --on-accent: oklch(.972 .012 95);
+
+    --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --sans:  "IBM Plex Sans", "Helvetica Neue", sans-serif;
+    --mono:  "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+    --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px;
+    --s5: 48px; --s6: 64px; --s7: 96px; --s8: 128px;
+    --gutter: 24px;
+    --max: 1200px;
+    --ease: cubic-bezier(.22, .61, .36, 1);
+  }
+  html[data-variant="oxblood"] {
+    --paper: oklch(.964 .009 75);
+    --paper-2: oklch(.932 .014 60);
+    --accent: oklch(.395 .135 25);
+    --on-accent: oklch(.978 .008 40);
+  }
+  html[data-variant="ledger"] {
+    --paper: oklch(.968 .007 240);
+    --paper-2: oklch(.938 .010 245);
+    --accent: oklch(.340 .075 255);
+    --on-accent: oklch(.975 .005 240);
+  }
+
+  /* ── Base ───────────────────────────────────────────────── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  @media (max-width: 640px) { body { font-size: 16px; } }
+  ::selection { background: var(--accent); color: var(--on-accent); }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+
+  .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+  .rule { border-top: 1px solid var(--rule); }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; text-wrap: balance; }
+  p { text-wrap: pretty; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 13px; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+  }
+  .sec-num { color: var(--accent); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--sans); font-size: 16px; font-weight: 600;
+    padding: 15px 28px; min-height: 48px;
+    border: 1px solid var(--accent); border-radius: 2px;
+    background: var(--accent); color: var(--on-accent);
+    cursor: pointer; text-decoration: none;
+    transition: transform .25s var(--ease), opacity .25s var(--ease);
+  }
+  .btn:hover { transform: translateY(-2px); opacity: .92; }
+  .btn--ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+  .btn--ghost:hover { background: var(--ink); color: var(--paper); opacity: 1; }
+  .btn--sm { padding: 11px 20px; font-size: 15px; min-height: 44px; }
+
+  .section { padding-block: clamp(72px, 10vw, 128px); }
+  .sec-head { display: grid; gap: var(--s2); margin-bottom: var(--s5); max-width: 780px; }
+  .sec-head h2 { font-size: clamp(34px, 5vw, 56px); line-height: 1.05; }
+
+  /* ── Nav ───────────────────────────────────────────────── */
+  header.nav {
+    position: sticky; top: 0; z-index: 40;
+    background: color-mix(in oklab, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--s3); min-height: 72px;
+  }
+  .wordmark {
+    font-family: var(--mono); font-weight: 500; font-size: 15px;
+    letter-spacing: .22em; text-transform: uppercase; text-decoration: none;
+  }
+  .wordmark em { font-family: var(--serif); font-style: italic; letter-spacing: 0; text-transform: none; font-size: 17px; color: var(--accent); }
+  .nav-links { display: flex; gap: var(--s4); align-items: center; }
+  .nav-links a { font-size: 15px; text-decoration: none; color: var(--muted); transition: color .2s; }
+  .nav-links a:hover { color: var(--ink); }
+  @media (max-width: 860px) { .nav-links a:not(.btn) { display: none; } }
+
+  /* ── Hero ──────────────────────────────────────────────── */
+  .hero { padding-block: clamp(56px, 8vw, 104px) clamp(64px, 9vw, 112px); }
+  .hero-grid {
+    display: grid; grid-template-columns: 7fr 5fr;
+    gap: clamp(32px, 5vw, 72px); align-items: start;
+  }
+  @media (max-width: 940px) { .hero-grid { grid-template-columns: 1fr; } }
+
+  .hero h1 {
+    font-size: clamp(46px, 7.4vw, 84px);
+    line-height: 1.02; letter-spacing: -.01em;
+    margin-block: var(--s3) var(--s3);
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero .lead { font-size: clamp(19px, 2vw, 22px); color: var(--muted); max-width: 34em; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s4); }
+  .hero-note { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-top: var(--s3); letter-spacing: .02em; }
+
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: var(--s3) var(--s5);
+    margin-top: var(--s6); padding-top: var(--s3); border-top: 1px solid var(--rule);
+  }
+  .hero-meta div { font-size: 15px; color: var(--muted); }
+  .hero-meta strong { display: block; font-family: var(--mono); font-weight: 500; font-size: 20px; color: var(--ink); }
+
+  /* ── Rate calculator card ──────────────────────────────── */
+  .calc {
+    background: var(--paper-2);
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    padding: clamp(24px, 3vw, 36px);
+    box-shadow: 10px 10px 0 color-mix(in oklab, var(--ink) 8%, transparent);
+  }
+  .calc h2 { font-size: 30px; line-height: 1.1; }
+  .calc .eyebrow { margin-bottom: 10px; display: block; }
+  .calc-row { margin-top: var(--s4); }
+  .calc-label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--mono); font-size: 13px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+  }
+  .calc-label output { font-size: 22px; font-weight: 500; color: var(--ink); letter-spacing: 0; }
+
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 2px; background: var(--ink); opacity: .35;
+    outline-offset: 6px; cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--paper-2);
+    box-shadow: 0 0 0 1px var(--ink); cursor: grab;
+    transition: transform .2s var(--ease);
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  input[type="range"]::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--paper-2);
+    box-shadow: 0 0 0 1px var(--ink); cursor: grab;
+  }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: var(--mono); font-size: 14px; min-height: 44px;
+    padding: 10px 16px; background: transparent; color: var(--ink);
+    border: 1px solid var(--rule); border-radius: 2px; cursor: pointer;
+    transition: all .2s var(--ease);
+  }
+  .chip:hover { border-color: var(--ink); }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  .calc-out {
+    margin-top: var(--s4); padding-top: var(--s3);
+    border-top: 1px solid var(--ink);
+    display: flex; justify-content: space-between; align-items: flex-end; gap: var(--s2);
+  }
+  .calc-out .payment { font-family: var(--mono); font-weight: 500; font-size: clamp(38px, 4.5vw, 52px); line-height: 1; letter-spacing: -.03em; }
+  .calc-out .payment span { font-size: 17px; color: var(--muted); letter-spacing: 0; }
+  .calc-out .apr { font-family: var(--mono); font-size: 14px; color: var(--muted); text-align: right; }
+  .calc-out .apr b { display: block; font-size: 22px; font-weight: 500; color: var(--accent); }
+  .calc-foot { display: flex; flex-direction: column; gap: var(--s2); margin-top: var(--s3); }
+  .disclaimer { font-family: var(--mono); font-size: 12px; line-height: 1.5; color: var(--muted); }
+
+  /* ── Steps ─────────────────────────────────────────────── */
+  .step {
+    display: grid; grid-template-columns: 140px 1fr auto;
+    gap: var(--s3); align-items: baseline;
+    padding-block: var(--s4); border-top: 1px solid var(--rule);
+    transition: background .3s var(--ease);
+  }
+  .step:last-of-type { border-bottom: 1px solid var(--rule); }
+  .step:hover { background: color-mix(in oklab, var(--paper-2) 60%, transparent); }
+  .step .n { font-family: var(--serif); font-size: clamp(44px, 5vw, 64px); line-height: 1; color: var(--accent); font-style: italic; }
+  .step h3 { font-size: clamp(26px, 3vw, 36px); line-height: 1.15; margin-bottom: 8px; }
+  .step p { color: var(--muted); max-width: 52ch; }
+  .step .when { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  @media (max-width: 760px) {
+    .step { grid-template-columns: 72px 1fr; }
+    .step .when { grid-column: 2; }
+  }
+
+  /* ── Rates table ───────────────────────────────────────── */
+  .rates { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+  @media (max-width: 940px) { .rates { grid-template-columns: 1fr; } }
+  table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  caption { caption-side: top; text-align: left; font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-bottom: 12px; }
+  th, td { text-align: left; padding: 16px 14px; border-bottom: 1px solid var(--rule); }
+  thead th { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--ink); }
+  td.num, th.num { font-family: var(--mono); text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: color-mix(in oklab, var(--paper-2) 65%, transparent); }
+  .tier { font-weight: 600; }
+  .tier small { display: block; font-weight: 400; font-size: 14px; color: var(--muted); }
+
+  .rates-aside { border-left: 1px solid var(--ink); padding-left: clamp(20px, 3vw, 40px); }
+  .rates-aside h3 { font-size: clamp(28px, 3vw, 36px); line-height: 1.15; margin-bottom: var(--s2); }
+  .rates-aside p { color: var(--muted); margin-bottom: var(--s3); }
+  .fee-list { list-style: none; display: grid; gap: 0; }
+  .fee-list li { display: flex; justify-content: space-between; gap: var(--s2); padding-block: 14px; border-top: 1px solid var(--rule); font-size: 15px; }
+  .fee-list li:last-child { border-bottom: 1px solid var(--rule); }
+  .fee-list b { font-family: var(--mono); font-weight: 500; }
+  .fee-list .yes { color: var(--accent); }
+
+  /* ── Statement band (inverted) ─────────────────────────── */
+  .band { background: var(--accent); color: var(--on-accent); }
+  .band .eyebrow { color: color-mix(in oklab, var(--on-accent) 72%, transparent); }
+  .band h2 { font-size: clamp(34px, 5vw, 56px); line-height: 1.08; }
+  .example {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3);
+    margin-top: var(--s5); padding-top: var(--s4);
+    border-top: 1px solid color-mix(in oklab, var(--on-accent) 40%, transparent);
+  }
+  @media (max-width: 760px) { .example { grid-template-columns: repeat(2, 1fr); } }
+  .example div span { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; margin-bottom: 8px; }
+  .example div b { font-family: var(--mono); font-weight: 500; font-size: clamp(24px, 3vw, 34px); letter-spacing: -.02em; }
+  .band .disclaimer { color: color-mix(in oklab, var(--on-accent) 75%, transparent); margin-top: var(--s3); max-width: 70ch; }
+
+  /* ── Eligibility ───────────────────────────────────────── */
+  .elig { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+  @media (max-width: 940px) { .elig { grid-template-columns: 1fr; } }
+  .checklist { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--s5); }
+  @media (max-width: 640px) { .checklist { grid-template-columns: 1fr; } }
+  .checklist li { padding-block: 18px; border-top: 1px solid var(--rule); font-size: 17px; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); }
+  .checklist b { display: block; font-weight: 600; margin-bottom: 2px; }
+  .checklist span { color: var(--muted); font-size: 15px; }
+
+  /* ── FAQ ───────────────────────────────────────────────── */
+  details { border-top: 1px solid var(--rule); }
+  details:last-of-type { border-bottom: 1px solid var(--rule); }
+  summary {
+    display: flex; justify-content: space-between; align-items: center; gap: var(--s3);
+    padding-block: var(--s3); cursor: pointer; list-style: none;
+    font-family: var(--serif); font-size: clamp(21px, 2.4vw, 26px);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-family: var(--mono); font-size: 24px; color: var(--accent); transition: transform .3s var(--ease); }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { padding-bottom: var(--s3); color: var(--muted); max-width: 68ch; }
+
+  /* ── Final CTA ─────────────────────────────────────────── */
+  .final { text-align: center; }
+  .final h2 { font-size: clamp(40px, 6vw, 72px); line-height: 1.05; max-width: 16ch; margin-inline: auto; }
+  .final .btn { margin-top: var(--s4); }
+  .img-slot {
+    margin-top: var(--s6); border: 1px dashed color-mix(in oklab, var(--ink) 45%, transparent);
+    background: var(--paper-2);
+    padding: clamp(40px, 7vw, 80px) var(--s3);
+    font-family: var(--mono); font-size: 13px; letter-spacing: .06em;
+    color: var(--muted); text-transform: uppercase;
+  }
+
+  /* ── Footer ────────────────────────────────────────────── */
+  footer { padding-block: var(--s6) var(--s5); }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--s4); }
+  @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  .foot-grid h4 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--s2); }
+  .foot-grid ul { list-style: none; display: grid; gap: 10px; }
+  .foot-grid a { font-size: 15px; text-decoration: none; color: var(--muted); }
+  .foot-grid a:hover { color: var(--ink); }
+  .foot-legal { margin-top: var(--s5); padding-top: var(--s3); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 12px; line-height: 1.7; color: var(--muted); max-width: 100ch; }
+
+  /* ── Variants panel ────────────────────────────────────── */
+  .variants { position: fixed; left: 16px; bottom: 16px; z-index: 60; font-family: var(--mono); }
+  .variants button.panel-toggle {
+    font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+    background: var(--ink); color: var(--paper); border: 0;
+    padding: 12px 18px; min-height: 44px; border-radius: 2px; cursor: pointer;
+  }
+  .variants .panel {
+    display: none; flex-direction: column; gap: 6px;
+    background: var(--paper); border: 1px solid var(--ink);
+    padding: 14px; margin-bottom: 8px; border-radius: 3px;
+    box-shadow: 6px 6px 0 color-mix(in oklab, var(--ink) 12%, transparent);
+    min-width: 210px;
+  }
+  .variants.open .panel { display: flex; }
+  .variants .panel .cap { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .variants .panel button {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; background: transparent; border: 1px solid var(--rule);
+    padding: 10px 12px; min-height: 44px; cursor: pointer; border-radius: 2px; color: var(--ink);
+  }
+  .variants .panel button[aria-current="true"] { border-color: var(--ink); background: var(--paper-2); }
+  .variants .panel button i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+  .sw-pine { background: oklch(.360 .095 155); }
+  .sw-ox { background: oklch(.395 .135 25); }
+  .sw-navy { background: oklch(.340 .075 255); }
+
+  /* ── Motion ────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .rise { animation: rise linear both; animation-timeline: view(); animation-range: entry 5% cover 24%; }
+      @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="#top">Meridian&nbsp;<em>lending</em></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#how">How it works</a>
+      <a href="#rates">Rates &amp; fees</a>
+      <a href="#eligibility">Eligibility</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn--sm" href="#calculator">Check your rate</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Personal loans · $1,000 – $50,000</span>
+        <h1>Know your rate <em>before</em> you borrow a cent.</h1>
+        <p class="lead">Fixed rates, one flat schedule, no early-repayment penalty. Check what you qualify for in two minutes — it won't touch your credit score.</p>
+        <div class="hero-ctas">
+          <a class="btn" href="#calculator">Check your rate</a>
+          <a class="btn btn--ghost" href="#how">See how it works</a>
+        </div>
+        <p class="hero-note">Soft search only · Decision in ~2 minutes · Funds as soon as next business day</p>
+
+        <div class="hero-meta">
+          <div><strong>11.9%</strong>example APR, 36 months</div>
+          <div><strong>$0</strong>origination &amp; prepayment fees</div>
+          <div><strong>3</strong>steps from rate to account</div>
+        </div>
+      </div>
+
+      <!-- Rate calculator -->
+      <aside class="calc" id="calculator" aria-label="Rate calculator">
+        <span class="eyebrow">Rate calculator</span>
+        <h2>What would you pay?</h2>
+
+        <div class="calc-row">
+          <div class="calc-label"><label for="amount">Loan amount</label><output id="amountOut" for="amount">$12,000</output></div>
+          <input type="range" id="amount" min="1000" max="50000" step="500" value="12000"
+                 aria-describedby="amountHint">
+          <p id="amountHint" class="disclaimer" style="margin-top:8px">$1,000 – $50,000</p>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-label"><span id="termLabel">Repayment term</span><output id="termOut">36 months</output></div>
+          <div class="chips" role="group" aria-labelledby="termLabel">
+            <button type="button" class="chip" data-term="12" aria-pressed="false">12 mo</button>
+            <button type="button" class="chip" data-term="24" aria-pressed="false">24 mo</button>
+            <button type="button" class="chip" data-term="36" aria-pressed="true">36 mo</button>
+            <button type="button" class="chip" data-term="48" aria-pressed="false">48 mo</button>
+            <button type="button" class="chip" data-term="60" aria-pressed="false">60 mo</button>
+          </div>
+        </div>
+
+        <div class="calc-out">
+          <div>
+            <div class="calc-label" style="margin-bottom:6px"><span>Monthly repayment</span></div>
+            <div class="payment" id="payment">$398<span>.00</span></div>
+          </div>
+          <div class="apr"><b>11.9%</b>example APR</div>
+        </div>
+
+        <div class="calc-foot">
+          <a class="btn" href="#final" style="justify-content:center">Get my real rate</a>
+          <p class="disclaimer">Illustrative calculation at a fixed example APR of 11.9%. Your personalised rate depends on your credit profile and will be shown after a soft search. Representative example: $10,000 over 36 months at 11.9% APR → $331.67/month, $11,939.96 total repayable.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ── How it works ─────────────────────────────────────── -->
+  <section class="section rule" id="how">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <span class="eyebrow"><span class="sec-num">01</span> — How it works</span>
+        <h2>Three steps. No branch, no phone call, no fax.</h2>
+      </div>
+
+      <div class="steps">
+        <div class="step rise">
+          <div class="n">01</div>
+          <div>
+            <h3>Check your rate</h3>
+            <p>Answer four questions — amount, term, income, and a soft credit search. No impact on your score, no obligation to continue.</p>
+          </div>
+          <div class="when">~2 minutes</div>
+        </div>
+        <div class="step rise">
+          <div class="n">02</div>
+          <div>
+            <h3>Verify and sign</h3>
+            <p>Upload ID and proof of income through the app, review your fixed schedule, and sign electronically. Every figure you saw in the calculator is locked in writing.</p>
+          </div>
+          <div class="when">Same day</div>
+        </div>
+        <div class="step rise">
+          <div class="n">03</div>
+          <div>
+            <h3>Money in your account</h3>
+            <p>Funds are sent to your nominated account, with repayment by Direct Debit on a date you choose. Overpay any time without a charge.</p>
+          </div>
+          <div class="when">Next business day</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Rates & fees ─────────────────────────────────────── -->
+  <section class="section rule" id="rates">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <span class="eyebrow"><span class="sec-num">02</span> — Rates &amp; fees</span>
+        <h2>One rate. It's on this page, not behind a form.</h2>
+      </div>
+
+      <div class="rates">
+        <div class="rates-aside rise">
+          <h3>What you pay is what the table says.</h3>
+          <p>The rate you're offered is fixed for the whole term — it never changes if base rates move, and it's the same figure you signed for.</p>
+          <ul class="fee-list">
+            <li>Origination fee <b>$0</b></li>
+            <li>Early repayment charge <b class="yes">None</b></li>
+            <li>Monthly servicing fee <b>$0</b></li>
+            <li>Failed payment <b>$15 after 14 days</b></li>
+            <li>Rate type <b>Fixed for term</b></li>
+          </ul>
+        </div>
+
+        <div class="rise" style="overflow-x:auto">
+          <table>
+            <caption>Example rate tiers · representative APR 11.9%</caption>
+            <thead>
+              <tr>
+                <th scope="col">Credit profile</th>
+                <th scope="col" class="num">APR</th>
+                <th scope="col" class="num">36-mo payment per $10,000</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tier">Building<small>Typical credit history</small></td>
+                <td class="num">17.9%</td>
+                <td class="num">$361.02</td>
+              </tr>
+              <tr>
+                <td class="tier">Good<small>Clear history, stable income</small></td>
+                <td class="num">13.9%</td>
+                <td class="num">$341.29</td>
+              </tr>
+              <tr>
+                <td class="tier">Strong<small>Long history, low utilization</small></td>
+                <td class="num">9.9%</td>
+                <td class="num">$322.20</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="disclaimer" style="margin-top:16px">Tiers shown for layout — final APRs subject to credit assessment and regulatory disclosure review. Rates shown are fixed and include all mandatory charges.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Representative example band ──────────────────────── -->
+  <section class="section band">
+    <div class="wrap rise">
+      <span class="eyebrow">Representative example</span>
+      <h2 style="margin-top:16px">Borrow $10,000. Here is every number you'd sign for.</h2>
+      <div class="example">
+        <div><span>APR (fixed)</span><b>11.9%</b></div>
+        <div><span>Monthly repayment</span><b>$331.67</b></div>
+        <div><span>Total repayable</span><b>$11,939.96</b></div>
+        <div><span>Term</span><b>36 months</b></div>
+      </div>
+      <p class="disclaimer">Representative example for design purposes. Missing or late payments can cause serious money problems; for free money guidance contact a non-profit debt advisory service. Final figures to be replaced with legally reviewed disclosures before publication.</p>
+    </div>
+  </section>
+
+  <!-- ── Eligibility ──────────────────────────────────────── -->
+  <section class="section rule" id="eligibility">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <span class="eyebrow"><span class="sec-num">03</span> — Eligibility</span>
+        <h2>Before you apply, check the basics.</h2>
+      </div>
+      <div class="elig">
+        <p class="rise" style="font-size:19px; color:var(--muted)">A rate check takes two minutes and leaves no mark on your credit file. If you don't meet every line below, it's usually not worth applying yet — we'll say so up front rather than decline you later.</p>
+        <ul class="checklist rise">
+          <li><b>18 or older</b><span>Valid government-issued ID</span></li>
+          <li><b>Regular income</b><span>Employed or self-employed, verifiable</span></li>
+          <li><b>U.S. resident</b><span>In a state we're licensed in</span></li>
+          <li><b>Checking account</b><span>In your name, for Direct Debit</span></li>
+          <li><b>No open bankruptcy</b><span>Or active debt-management plan</span></li>
+          <li><b>Soft-search ready</b><span>No hard inquiry to see your rate</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────── -->
+  <section class="section rule" id="faq">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <span class="eyebrow"><span class="sec-num">04</span> — Questions</span>
+        <h2>The ones people actually ask.</h2>
+      </div>
+      <div class="rise">
+        <details open>
+          <summary>Does checking my rate affect my credit score?</summary>
+          <p>No. The rate check uses a soft search, which is visible only to you and leaves no mark on your file. A hard search happens only if you accept an offer and continue to signing — and we show that moment explicitly before it happens.</p>
+        </details>
+        <details>
+          <summary>Can I repay early?</summary>
+          <p>Yes, at any time, with no charge. You can overpay monthly or clear the whole balance; interest is only charged up to the day you settle.</p>
+        </details>
+        <details>
+          <summary>How fast is the money?</summary>
+          <p>Verification and signing completed before 4pm on a business day normally means funds arrive the next business day. Slower for some banks; the app shows your exact date once signed.</p>
+        </details>
+        <details>
+          <summary>What happens if I miss a payment?</summary>
+          <p>Contact us before the due date and we'll try to move the date. After 14 days a $15 missed-payment fee applies, and persistent missed payments are reported to credit bureaus and may affect your score.</p>
+        </details>
+        <details>
+          <summary>What do you need from me?</summary>
+          <p>A government ID, proof of income (payslips or two years of tax returns if self-employed), and your bank connection for Direct Debit. Nothing is mailed, nothing is faxed.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────── -->
+  <section class="section rule final" id="final">
+    <div class="wrap rise">
+      <span class="eyebrow">Two minutes · No impact on your score</span>
+      <h2 style="margin-top:20px">See your rate. Then decide.</h2>
+      <a class="btn" href="#calculator">Check my rate</a>
+      <div class="img-slot">[full-bleed image: applicant at home in warm daylight — 1600×640]</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rule">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="wordmark" href="#top">Meridian&nbsp;<em>lending</em></a>
+        <p class="disclaimer" style="margin-top:16px; max-width:34ch">Placeholder brand and copy for design presentation only. Not a lender, not an offer of credit.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#rates">Personal loans</a></li>
+          <li><a href="#calculator">Rate calculator</a></li>
+          <li><a href="#how">How it works</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#top">About</a></li>
+          <li><a href="#top">Careers</a></li>
+          <li><a href="#faq">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#top">Privacy</a></li>
+          <li><a href="#top">Terms</a></li>
+          <li><a href="#top">Complaints</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-legal">© 2026 Meridian (placeholder). Lending products involve risk. Representative APR 11.9%: borrowing $10,000 over 36 months at 11.9% APR requires 36 monthly repayments of $331.67 and a total repayment of $11,939.96. Late repayment can cause you serious money problems. All content on this page is design copy pending legal review.</p>
+  </div>
+</footer>
+
+<!-- Variants panel: switch the visual system live -->
+<div class="variants" id="variantsPanel">
+  <div class="panel" role="group" aria-label="Design variants">
+    <span class="cap">Visual variant</span>
+    <button type="button" data-v="pine" aria-current="true"><i class="sw-pine"></i>Ink &amp; Pine</button>
+    <button type="button" data-v="oxblood" aria-current="false"><i class="sw-ox"></i>Oxblood Editorial</button>
+    <button type="button" data-v="ledger" aria-current="false"><i class="sw-navy"></i>Ledger Navy</button>
+  </div>
+  <button type="button" class="panel-toggle" aria-expanded="false">Variants</button>
+</div>
+
+<script>
+  // ── Rate calculator ──────────────────────────────────────
+  const amountEl = document.getElementById('amount');
+  const amountOut = document.getElementById('amountOut');
+  const termOut = document.getElementById('termOut');
+  const paymentEl = document.getElementById('payment');
+  const chips = document.querySelectorAll('.chip');
+  const APR = 0.119; // fixed example APR
+
+  const money = n => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  function payment(principal, months) {
+    const r = APR / 12;
+    return principal * r / (1 - Math.pow(1 + r, -months));
+  }
+
+  function render() {
+    const principal = +amountEl.value;
+    const months = +document.querySelector('.chip[aria-pressed="true"]').dataset.term;
+    const p = payment(principal, months);
+    const [whole, cents] = money(p).split('.');
+    amountOut.textContent = '$' + principal.toLocaleString('en-US');
+    termOut.textContent = months + ' months';
+    paymentEl.innerHTML = '$' + whole + '<span>.' + cents + '</span>';
+  }
+
+  amountEl.addEventListener('input', render);
+  chips.forEach(chip => chip.addEventListener('click', () => {
+    chips.forEach(c => c.setAttribute('aria-pressed', 'false'));
+    chip.setAttribute('aria-pressed', 'true');
+    render();
+  }));
+  render();
+
+  // ── Variants panel ───────────────────────────────────────
+  const panel = document.getElementById('variantsPanel');
+  const toggle = panel.querySelector('.panel-toggle');
+  toggle.addEventListener('click', () => {
+    const open = panel.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  panel.querySelectorAll('.panel button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.documentElement.dataset.variant = btn.dataset.v;
+      panel.querySelectorAll('.panel button').forEach(b =>
+        b.setAttribute('aria-current', b === btn ? 'true' : 'false'));
+    });
+  });
+</script>
+</body>
+</html>
